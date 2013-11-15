@@ -1,15 +1,15 @@
-name: QuickShop
-version: 4.5 #Beta
-main: org.maxgamer.QuickShop.QuickShop
-author: Netherfoam
+name: QuickShopMW
+version: 0.1 #Alpha
+main: com.wasteofplastic.QuickShopMW.QuickShop
+author: Tastybento
 
-description: Economy Shops plugin
-website: http://maxgamer.org
+description: Chest shop plugin with multi world support. Fork of QuickShop
+website: http://www.wasteofplastic.com
 softdepend: [Herochat, Vault, Spout]
 
 commands:
     qs:
-        description: QuickShop command
+        description: QuickShopMW command
         usage: /qs
         aliases: [shop]
         
