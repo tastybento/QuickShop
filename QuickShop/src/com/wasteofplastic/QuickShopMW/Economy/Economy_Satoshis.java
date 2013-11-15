@@ -40,6 +40,12 @@ public class Economy_Satoshis implements EconomyCore{
 		econ.addFunds(name, amount);
 		return true;
 	}
+	
+	@Override
+	public boolean deposit(String name, double amount, String world) {
+		econ.addFunds(name, amount);
+		return true;
+	}
 
 	/**
 	 * Withdraws the given amount from the given usernames account.
@@ -51,6 +57,14 @@ public class Economy_Satoshis implements EconomyCore{
 	 */
 	@Override
 	public boolean withdraw(String name, double amount) {
+		if(econ.getMoney(name) >= amount){
+			econ.subFunds(name, amount);
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public boolean withdraw(String name, double amount, String world) {
 		if(econ.getMoney(name) >= amount){
 			econ.subFunds(name, amount);
 			return true;
@@ -75,7 +89,15 @@ public class Economy_Satoshis implements EconomyCore{
 		}
 		return false;
 	}
-
+	@Override
+	public boolean transfer(String from, String to, double amount, String world) {
+		if(econ.getMoney(from) >= amount){
+			econ.subFunds(from, amount);
+			econ.addFunds(to, amount);
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Fetches the given players balance.
 	 * @param name The name of the player
@@ -83,6 +105,10 @@ public class Economy_Satoshis implements EconomyCore{
 	 */
 	@Override
 	public double getBalance(String name) {
+		return econ.getMoney(name);
+	}
+	@Override
+	public double getBalance(String name, String world) {
 		return econ.getMoney(name);
 	}
 

@@ -351,10 +351,13 @@ public class QS implements CommandExecutor{
 				sender.sendMessage(MsgUtil.getMessage("price-too-cheap"));
 				return;
 			}
+			String world = sender.getServer().getPlayer(sender.getName()).getWorld().getName();
 			double fee = 0;
 			if(plugin.priceChangeRequiresFee) {
 				fee = plugin.getConfig().getDouble("shop.fee-for-price-change");
-				if(fee > 0 && plugin.getEcon().getBalance(sender.getName()) < fee) {
+				// Multi World support
+				if(fee > 0 && plugin.getEcon().getBalance(sender.getName(),world) < fee) {
+				//if(fee > 0 && plugin.getEcon().getBalance(sender.getName()) < fee) {
 					sender.sendMessage(MsgUtil.getMessage("you-cant-afford-to-change-price", plugin.getEcon().format(fee)));
 					return;
 				}
@@ -373,13 +376,18 @@ public class QS implements CommandExecutor{
 						return;
 					}
 					if(fee > 0){
-						if(!plugin.getEcon().withdraw(sender.getName(), fee)){
+						// Multi World Support
+						if(!plugin.getEcon().withdraw(sender.getName(), fee, world)){
+						//if(!plugin.getEcon().withdraw(sender.getName(), fee)){
 							sender.sendMessage(MsgUtil.getMessage("you-cant-afford-to-change-price", plugin.getEcon().format(fee)));
 							return;
 						}
 						
 						sender.sendMessage(MsgUtil.getMessage("fee-charged-for-price-change", plugin.getEcon().format(fee)));
-						plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), fee);
+						// Multi World Support
+						// Maybe this is not needed - it's just a sink for taxes
+						plugin.getEcon().deposit(plugin.getConfig().getString("tax-account", world), fee);
+						//plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), fee);
 					}
 
 					//Update the shop

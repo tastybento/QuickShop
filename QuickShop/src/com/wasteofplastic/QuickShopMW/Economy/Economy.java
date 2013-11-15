@@ -22,6 +22,9 @@ public class Economy implements EconomyCore{
 	public boolean deposit(String name, double amount){
 		return core.deposit(name, amount);
 	}
+	public boolean deposit(String name, double amount, String world){
+		return core.deposit(name, amount, world);
+	}
 	/**
 	 * Withdraws a given amount of money from the given username and turns it to thin air.
 	 * @param name The exact (case insensitive) username to take money from
@@ -30,6 +33,9 @@ public class Economy implements EconomyCore{
 	 */
 	public boolean withdraw(String name, double amount){
 		return core.withdraw(name, amount);
+	}
+	public boolean withdraw(String name, double amount, String world){
+		return core.withdraw(name, amount, world);
 	}
 	/**
 	 * Transfers the given amount of money from Player1 to Player2
@@ -41,12 +47,18 @@ public class Economy implements EconomyCore{
 	public boolean transfer(String from, String to, double amount){
 		return core.transfer(from, to, amount);
 	}
+	public boolean transfer(String from, String to, double amount, String world){
+		return core.transfer(from, to, amount, world);
+	}
 	/**
 	 * Fetches the balance of the given account name
 	 * @param name The name of the account
 	 * @return Their current balance.
 	 */
 	public double getBalance(String name){
+		return core.getBalance(name);
+	}
+	public double getBalance(String name, String world){
 		return core.getBalance(name);
 	}
 	/**
@@ -57,10 +69,17 @@ public class Economy implements EconomyCore{
 	public String format(double balance){
 		return core.format(balance);
 	}
+	public String format(double balance, String world){
+		return core.format(balance);
+	}
 	
 	public boolean has(String name, double amount){
 		return core.getBalance(name) >= amount;
 	}
+	public boolean has(String name, double amount, String world){
+		return core.getBalance(name, world) >= amount;
+	}
+	
 	@Override
 	public String toString(){
 		return core.getClass().getName().split("_")[1];

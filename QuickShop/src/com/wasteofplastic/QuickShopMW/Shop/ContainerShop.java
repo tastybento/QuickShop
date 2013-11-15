@@ -551,7 +551,9 @@ public class ContainerShop implements Shop{
 		
 		//Refund if necessary
 		if(plugin.getConfig().getBoolean("shop.refund")){
-			plugin.getEcon().deposit(this.getOwner(), plugin.getConfig().getDouble("shop.cost"));
+			// Multi World Support
+			plugin.getEcon().deposit(this.getOwner(), plugin.getConfig().getDouble("shop.cost"), world);
+			//plugin.getEcon().deposit(this.getOwner(), plugin.getConfig().getDouble("shop.cost"));
 		}
 		
 		if(fromMemory){

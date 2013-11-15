@@ -17,6 +17,7 @@ public interface EconomyCore{
 	 * @return True if success (Should be almost always)
 	 */
 	public boolean deposit(String name, double amount);
+	public boolean deposit(String name, double amount, String world);
 	/**
 	 * Withdraws a given amount of money from the given username and turns it to thin air.
 	 * @param name The exact (case insensitive) username to take money from
@@ -24,6 +25,7 @@ public interface EconomyCore{
 	 * @return True if success, false if they didn't have enough cash
 	 */
 	public boolean withdraw(String name, double amount);
+	public boolean withdraw(String name, double amount, String world);
 	/**
 	 * Transfers the given amount of money from Player1 to Player2
 	 * @param from The player who is paying money
@@ -32,12 +34,14 @@ public interface EconomyCore{
 	 * @return true if success (Payer had enough cash, receiver was able to receive the funds)
 	 */
 	public boolean transfer(String from, String to, double amount);
+	public boolean transfer(String from, String to, double amount, String World);
 	/**
 	 * Fetches the balance of the given account name
 	 * @param name The name of the account
 	 * @return Their current balance.
 	 */
 	public double getBalance(String name);
+	public double getBalance(String name, String world);
 	/**
 	 * Formats the given number... E.g. 50.5 becomes $50.5 Dollars, or 50 Dollars 5 Cents
 	 * @param balance The given number

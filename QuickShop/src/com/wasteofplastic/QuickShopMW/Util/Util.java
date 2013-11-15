@@ -310,6 +310,7 @@ public class Util{
 		String[] itemInfo = itemString.split(":");
 		
 		ItemStack item = new ItemStack(Material.getMaterial(itemInfo[0]));
+		@SuppressWarnings("deprecation")
 		MaterialData data = new MaterialData(Integer.parseInt(itemInfo[1]));
 		item.setData(data);
 		item.setDurability( Short.parseShort(itemInfo[2]));

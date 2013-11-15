@@ -32,8 +32,18 @@ public class Economy_Vault implements EconomyCore{
 	}
 
 	@Override
+	public boolean deposit(String name, double amount, String world) {
+		return vault.depositPlayer(name, world, amount).transactionSuccess();
+	}
+
+	@Override
 	public boolean withdraw(String name, double amount) {
 		return vault.withdrawPlayer(name, amount).transactionSuccess();
+	}
+
+	@Override
+	public boolean withdraw(String name, double amount, String world) {
+		return vault.withdrawPlayer(name, world, amount).transactionSuccess();
 	}
 
 	@Override
@@ -52,8 +62,27 @@ public class Economy_Vault implements EconomyCore{
 	}
 
 	@Override
+	public boolean transfer(String from, String to, double amount, String world) {
+		if(vault.getBalance(from, world) >= amount){ //Does the payer have enough money?
+			if(vault.withdrawPlayer(from, world, amount).transactionSuccess()){ //Try and take money from their account.
+				if(vault.depositPlayer(to, world, amount).transactionSuccess() == false){ //Successfully took money from their account
+					vault.depositPlayer(from, world, amount); //Couldn't pay the other guy for some reason though, so return the cash
+					return false;
+				}
+				return true; //Successfully took money from payer and successfully gave money to receiver
+			}
+			return false; //Failed to withdraw money
+		}
+		return false; //Not a high enough balance.
+	}
+
+	@Override
 	public double getBalance(String name) {
 		return vault.getBalance(name);
+	}
+	@Override
+	public double getBalance(String name, String world) {
+		return vault.getBalance(name, world);
 	}
 
 	@Override

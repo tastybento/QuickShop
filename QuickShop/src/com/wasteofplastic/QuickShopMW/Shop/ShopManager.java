@@ -241,6 +241,8 @@ public class ShopManager{
 	
 	public void handleChat(final Player p, String msg){
 		final String message = ChatColor.stripColor(msg);
+		// Multi World Support
+		final String world = p.getWorld().getName();
 		
 		//Use from the main thread, because Bukkit hates life
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
@@ -293,7 +295,9 @@ public class ShopManager{
 						double tax = plugin.getConfig().getDouble("shop.cost"); 
 						
 						//Tax refers to the cost to create a shop.  Not actual tax, that would be silly
-						if(tax != 0 && plugin.getEcon().getBalance(p.getName()) < tax){
+						// Multi World Support
+						if(tax != 0 && plugin.getEcon().getBalance(p.getName(), world) < tax){
+						//if(tax != 0 && plugin.getEcon().getBalance(p.getName()) < tax){
 							p.sendMessage(MsgUtil.getMessage("you-cant-afford-a-new-shop", format(tax)));
 							return;
 						}
@@ -312,13 +316,16 @@ public class ShopManager{
 						//This must be called after the event has been called.
 						//Else, if the event is cancelled, they won't get their money back.
 						if(tax != 0){
-							if(!plugin.getEcon().withdraw(p.getName(), tax)){
+							// MultiWorld Support
+							if(!plugin.getEcon().withdraw(p.getName(), tax, world)){
+							//if(!plugin.getEcon().withdraw(p.getName(), tax)){
 								p.sendMessage(MsgUtil.getMessage("you-cant-afford-a-new-shop", format(tax)));
 								shop.onUnload();
 								return;
 							}
-							
-							plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), tax);
+							// Multi World Support
+							plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), tax, world);
+							//plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), tax);
 						}
 						
 						/* The shop has hereforth been successfully created */
@@ -448,8 +455,11 @@ public class ShopManager{
 						//Money handling
 						if(!p.getName().equalsIgnoreCase(shop.getOwner())){
 							//Check their balance.  Works with *most* economy plugins*
-							if(plugin.getEcon().getBalance(p.getName()) < amount * shop.getPrice()){
-								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
+							// Multi World Support
+							if(plugin.getEcon().getBalance(p.getName(), world) < amount * shop.getPrice()){
+							//if(plugin.getEcon().getBalance(p.getName()) < amount * shop.getPrice()){
+								//p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
+								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName(), world))));
 								return;
 							}
 							
@@ -458,16 +468,23 @@ public class ShopManager{
 							double tax = plugin.getConfig().getDouble("tax");
 							double total = amount * shop.getPrice();
 							
-							if(!plugin.getEcon().withdraw(p.getName(), total)){
-								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
+							//Multi World Support
+							if(!plugin.getEcon().withdraw(p.getName(), total, world)){
+							//if(!plugin.getEcon().withdraw(p.getName(), total)){
+								//p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
+								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName(), world))));
 								return;
 							}
 							
 							if(!shop.isUnlimited() || plugin.getConfig().getBoolean("shop.pay-unlimited-shop-owners")){
-								plugin.getEcon().deposit(shop.getOwner(), total * (1 - tax));
+								//Multi World Support
+								plugin.getEcon().deposit(shop.getOwner(), total * (1 - tax), world);
+								//plugin.getEcon().deposit(shop.getOwner(), total * (1 - tax));
 								
 								if(tax != 0){
-									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
+									//Multi World Support
+									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax, world);
+									//plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
 								}
 							}
 							
@@ -524,23 +541,33 @@ public class ShopManager{
 							
 							if(!shop.isUnlimited() || plugin.getConfig().getBoolean("shop.pay-unlimited-shop-owners")){
 								//Tries to check their balance nicely to see if they can afford it.
-								if(plugin.getEcon().getBalance(shop.getOwner()) < amount * shop.getPrice()){
-									p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner()))));
+								// Multi World Support
+								if(plugin.getEcon().getBalance(shop.getOwner(), world) < amount * shop.getPrice()){
+									p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner(), world))));
+								//if(plugin.getEcon().getBalance(shop.getOwner()) < amount * shop.getPrice()){
+								//	p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner()))));
 									return;
 								}
 								
 								//Check for plugins faking econ.has(amount)
-								if(!plugin.getEcon().withdraw(shop.getOwner(), total)){
-									p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner()))));
+								// Multi World Support
+								if(!plugin.getEcon().withdraw(shop.getOwner(), total, world)){
+								//if(!plugin.getEcon().withdraw(shop.getOwner(), total)){
+									//p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner()))));
+									p.sendMessage(MsgUtil.getMessage("the-owner-cant-afford-to-buy-from-you", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(shop.getOwner(), world))));
 									return;
 								}
 								
 								if(tax != 0){
-									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
+									// Multi World Support
+									plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax, world);
+									//plugin.getEcon().deposit(plugin.getConfig().getString("tax-account"), total * tax);
 								}
 							}
 							//Give them the money after we know we succeeded
-							plugin.getEcon().deposit(p.getName(), total * (1 - tax));
+							// Multi World Support
+							plugin.getEcon().deposit(p.getName(), total * (1 - tax), world);
+							//plugin.getEcon().deposit(p.getName(), total * (1 - tax));
 							
 							//Notify the owner of the purchase.
 							String msg = MsgUtil.getMessage("player-sold-to-your-store", p.getName(), ""+amount, shop.getDataName());
