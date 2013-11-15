@@ -69,7 +69,7 @@ public class DisplayItem{
 	 */
 	public boolean removeDupe(){
 		if(shop.getLocation().getWorld() == null) return false;
-		QuickShop qs = (QuickShop) Bukkit.getPluginManager().getPlugin("QuickShop");
+		QuickShop qs = (QuickShop) Bukkit.getPluginManager().getPlugin("QuickShopMW");
 		Location displayLoc = shop.getLocation().getBlock().getRelative(0, 1, 0).getLocation();
 		
 		boolean removed = false;

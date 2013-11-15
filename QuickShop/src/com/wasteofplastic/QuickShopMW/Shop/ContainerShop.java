@@ -70,7 +70,7 @@ public class ContainerShop implements Shop{
 		this.price = price;
 		this.owner = owner;
 		this.item = item.clone();
-		this.plugin = (QuickShop) Bukkit.getPluginManager().getPlugin("QuickShop");
+		this.plugin = (QuickShop) Bukkit.getPluginManager().getPlugin("QuickShopMW");
 		this.item.setAmount(1);
 		
 		if(plugin.display){
