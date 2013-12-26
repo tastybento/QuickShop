@@ -572,8 +572,9 @@ public class ContainerShop implements Shop{
 		if(plugin.display == false) return;
 		if(getLocation().getWorld() == null) return; //not loaded
 		
-		boolean trans = Util.isTransparent(getLocation().clone().add(0.5, 1.2, 0.5).getBlock().getType());
-		
+		//boolean trans = Util.isTransparent(getLocation().clone().add(0.5, 1.2, 0.5).getBlock().getType());
+		boolean trans = getLocation().clone().add(0.5, 1.2, 0.5).getBlock().getType().isTransparent();
+				
 		if(trans && this.getDisplayItem() == null){
 			this.displayItem = new DisplayItem(this, this.getItem());
 			this.getDisplayItem().spawn();
