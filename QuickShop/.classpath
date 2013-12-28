@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/ben/Documents/CraftBukkit/bukkit-1.7.2-R0.3-20131221.081032-1.jar"/>
-	<classpathentry kind="lib" path="/Users/ben/Documents/CraftBukkit/plugins/Vault.jar"/>
+	<classpathentry kind="lib" path="/Users/ben/Documents/CraftBukkit/plugins/Vault.jar" sourcepath="/Vault/src"/>
 	<classpathentry kind="lib" path="/Users/ben/Downloads/HeroChat.jar"/>
 	<classpathentry kind="lib" path="/Users/ben/Downloads/Satoshis-1.2.jar"/>
 	<classpathentry kind="lib" path="/Users/ben/Downloads/spoutcraftplugin-1.6.4-b1.jar"/>

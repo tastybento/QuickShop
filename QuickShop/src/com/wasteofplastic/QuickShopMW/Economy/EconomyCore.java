@@ -34,13 +34,19 @@ public interface EconomyCore{
 	 * @return true if success (Payer had enough cash, receiver was able to receive the funds)
 	 */
 	public boolean transfer(String from, String to, double amount);
-	public boolean transfer(String from, String to, double amount, String World);
+	public boolean transfer(String from, String to, double amount, String world);
 	/**
 	 * Fetches the balance of the given account name
 	 * @param name The name of the account
 	 * @return Their current balance.
 	 */
 	public double getBalance(String name);
+	/**
+	 * Fetches the balance of the given account name
+	 * @param name The name of the account
+	 * @param world The name of the world where the balance is
+	 * @return Their current balance.
+	 */
 	public double getBalance(String name, String world);
 	/**
 	 * Formats the given number... E.g. 50.5 becomes $50.5 Dollars, or 50 Dollars 5 Cents

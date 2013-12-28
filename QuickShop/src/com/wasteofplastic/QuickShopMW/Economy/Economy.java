@@ -47,6 +47,14 @@ public class Economy implements EconomyCore{
 	public boolean transfer(String from, String to, double amount){
 		return core.transfer(from, to, amount);
 	}
+	/**
+	 * Transfers the given amount of money from Player1 to Player2
+	 * @param from The player who is paying money
+	 * @param to The player who is receiving money
+	 * @param amount The amount to transfer
+	 * @param world The name of the world
+	 * @return true if success (Payer had enough cash, receiver was able to receive the funds)
+	 */
 	public boolean transfer(String from, String to, double amount, String world){
 		return core.transfer(from, to, amount, world);
 	}
@@ -58,8 +66,14 @@ public class Economy implements EconomyCore{
 	public double getBalance(String name){
 		return core.getBalance(name);
 	}
+	/**
+	 * Fetches the balance of the given account name
+	 * @param name The name of the account
+	 * @param world The name of the world
+	 * @return Their current balance in that world
+	 */
 	public double getBalance(String name, String world){
-		return core.getBalance(name);
+		return core.getBalance(name, world);
 	}
 	/**
 	 * Formats the given number... E.g. 50.5 becomes $50.5 Dollars, or 50 Dollars 5 Cents

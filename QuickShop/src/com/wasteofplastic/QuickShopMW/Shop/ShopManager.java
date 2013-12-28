@@ -242,13 +242,14 @@ public class ShopManager{
 	public void handleChat(final Player p, String msg){
 		final String message = ChatColor.stripColor(msg);
 		// Multi World Support
-		final String world = p.getWorld().getName();
+		//final String world = p.getWorld().getName();
 		
 		//Use from the main thread, because Bukkit hates life
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 			@Override
 			public void run() {
 				HashMap<String, Info> actions = getActions();
+				final String world = p.getLocation().getWorld().getName();
 				//They wanted to do something.
 				Info info = actions.remove(p.getName());
 				if(info == null) return; //multithreaded means this can happen
@@ -472,7 +473,9 @@ public class ShopManager{
 							if(!plugin.getEcon().withdraw(p.getName(), total, world)){
 							//if(!plugin.getEcon().withdraw(p.getName(), total)){
 								//p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName()))));
-								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName(), world))));
+								//plugin.getLogger().info("DEBUG: Getting the balance because there is not enough money");
+								p.sendMessage(MsgUtil.getMessage("you-cant-afford-to-buy", format(amount * shop.getPrice()), format(plugin.getEcon().getBalance(p.getName(), "world_nether"))));
+								//plugin.getLogger().info("DEBUG: the world is " + world + " the balance is " + plugin.getEcon().getBalance(p.getName(),"world_nether"));
 								return;
 							}
 							
